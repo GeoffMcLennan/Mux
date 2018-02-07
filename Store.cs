@@ -25,6 +25,30 @@ namespace Mux
             dispatcher.Unregister(mStoreID);
         }
 
-        public abstract void OnDispatch(Payload payload);
+        public void AddStoreListener(IStoreListener listener)
+        {
+            listeners.Add(listener);
+        }
+
+        public void RemoveStoreListener(IStoreListener listener)
+        {
+            listeners.Remove(listener);
+        }
+
+        public abstract void OnDispatch<T>(Payload<T> payload) where T : IState;
+
+        public void OnStoreChange()
+        {
+            foreach (IStoreListener listener in listeners)
+            {
+                try
+                {
+                    listener.OnStoreChange();
+                } catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                }
+            }
+        }
     }
 }

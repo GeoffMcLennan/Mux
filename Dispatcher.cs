@@ -43,7 +43,7 @@ namespace Mux
             mStores.Remove(id);
         }
 
-        public void Dispatch(Payload payload)
+        public void Dispatch<T>(Payload<T> payload) where T : IState
         {
             foreach (Store s in mStores.Values)
             {

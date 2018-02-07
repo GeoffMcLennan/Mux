@@ -4,12 +4,13 @@ using System.Text;
 
 namespace Mux
 {
-    public abstract class Payload
+    public abstract class Payload<T> where T : IState
     {
         private string actionName;
         private Dispatcher dispatcher;
+        public T State;
 
-        public Payload(String name)
+        public Payload(string name)
         {
             actionName = name;
             dispatcher = Dispatcher.GetInstance();
